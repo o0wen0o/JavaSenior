@@ -19,12 +19,17 @@ public class Utility {
 
             String line;
             for (int i = 0; i < 9 && ((line = br.readLine()) != null); i++) {
-                ArrayList<Point> points = sudoku.get(i);
                 for (int j = 0; j < 9; j++) {
-                    Point point = points.get(j);
-                    point.setNum(line.substring(j, j + 1));
+                    Point point = sudoku.get(i).get(j);
+                    String num = line.substring(j, j + 1);
 
-                    if (!point.getNum().equals("0")) { // give a blue color
+                    if (num.equals("0")) {
+                        num = "";
+                    }
+
+                    point.setNum(num);
+
+                    if (!point.getNum().isEmpty()) { // give a blue color
                         point.setColor("\u001B[34m");
                     }
                 }

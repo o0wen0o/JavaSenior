@@ -3,10 +3,10 @@
  * @create 2022-12-28 11:51 AM
  */
 public class Point {
-    private int x;
-    private int y;
-    private int z;
-    private String num;
+    private int x; // from 1 to 9
+    private int y; // from 1 to 9
+    private int z; // from 1 to 9
+    private String num; // may concat multiple numbers
 
     public String color = "\u001B[0m"; // "\u001B[34m" blue
 

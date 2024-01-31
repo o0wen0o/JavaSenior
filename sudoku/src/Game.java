@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * @author o0wen0o
  * @create 2022-12-28 12:24 PM
@@ -40,42 +42,43 @@ public class Game {
                             break;
                         }
 
-                        sudoku.setNum(token[1], "0");
+                        sudoku.setNum(token[1], "");
                         break;
 
                     case "hint":
-                        String[][] hints = sudoku.getHint(false);
+                        ArrayList<ArrayList<Point>> hints = sudoku.getHint();
 
                         if (token.length == 1) { // list all hint
                             System.out.println("Possible number:");
-                            for (int x = 1; x <= 9; x++) {
-                                for (int y = 1; y <= 9; y++) {
-                                    String hint = hints[x - 1][y - 1];
+                            for (int x = 0; x < 9; x++) {
+                                for (int y = 0; y < 9; y++) {
+                                    String hint = hints.get(x).get(y).getNum();
 
-                                    if (hint == "") { // got number then skip
+                                    if (hint.isEmpty()) { // got number then skip
                                         continue;
                                     }
 
-                                    System.out.println("" + x + y + "[" + hint + "]");
+                                    System.out.println("" + (x + 1) + (y + 1) + "[" + hint + "]");
                                 }
                             }
 
                         } else if (token.length == 2 && token[1].length() == 1) { // specified z axis
                             System.out.println("Possible number:");
-                            for (int x = 1; x <= 9; x++) {
-                                for (int y = 1; y <= 9; y++) {
-                                    String hint = hints[x - 1][y - 1];
-                                    int z = sudoku.getSudoku().get(x - 1).get(y - 1).getZ(); // traverse all z
+
+                            for (int x = 0; x < 9; x++) {
+                                for (int y = 0; y < 9; y++) {
+                                    String hint = hints.get(x).get(y).getNum();
+                                    int z = sudoku.getSudoku().get(x).get(y).getZ(); // traverse all z
 
                                     if (!token[1].equals(String.valueOf(z))) { // different z axis then skip
                                         continue;
                                     }
 
-                                    if (hint == "") { // got number then skip
+                                    if (hint.isEmpty()) { // got number then skip
                                         continue;
                                     }
 
-                                    System.out.println("" + x + y + "[" + hint + "]");
+                                    System.out.println("" + (x + 1) + (y + 1) + "[" + hint + "]");
                                 }
                             }
 
@@ -85,7 +88,10 @@ public class Game {
                         break;
 
                     case "autofill":
-                        sudoku.getHint(true);
+                        boolean hasFilled = sudoku.autofill(sudoku.getHint());
+                        if (!hasFilled) {
+                            System.out.println("Can't fill in anymore!");
+                        }
                         break;
 
                     case "exit":
