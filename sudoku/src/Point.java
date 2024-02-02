@@ -60,8 +60,19 @@ public class Point {
         this.color = color;
     }
 
+    // @Override
+    // public String toString() {
+    //     return "{ " + x + " " + y + " " + z + " " + num + " }";
+    // }
+
+
     @Override
     public String toString() {
-        return "{ " + x + " " + y + " " + z + " " + num + " }";
+        return "Point{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                ", Possible number='" + num + '\'' +
+                '}';
     }
 }

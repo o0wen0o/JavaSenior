@@ -12,10 +12,10 @@ public class Utility {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void readFile(ArrayList<ArrayList<Point>> sudoku) {
+    public static void readFile(ArrayList<ArrayList<Point>> sudoku, String filePath) {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("sudoku\\src\\data.txt"));
+            br = new BufferedReader(new FileReader(filePath));
 
             String line;
             for (int i = 0; i < 9 && ((line = br.readLine()) != null); i++) {

@@ -8,9 +8,10 @@ public class Game {
 
     public void enterMainMenu() {
         Sudoku sudoku = new Sudoku();
-        sudoku.setSudoku();
+        sudoku.setSudoku("sudoku\\src\\data\\data.txt");
 
         boolean loopFlag = true;
+        ArrayList<ArrayList<Point>> hints = sudoku.getHint(); // get only once
 
         while (loopFlag) {
             System.out.print(sudoku);
@@ -18,7 +19,7 @@ public class Game {
             System.out.println("1.add xy num");
             System.out.println("2.del xy");
             System.out.println("3.hint [1-9]");
-            System.out.println("4.autofill");
+            System.out.println("4.autofill (This will change the original hint)");
             System.out.println("5.exit");
 
             String line = Utility.readString(100);
@@ -46,19 +47,19 @@ public class Game {
                         break;
 
                     case "hint":
-                        ArrayList<ArrayList<Point>> hints = sudoku.getHint();
-
                         if (token.length == 1) { // list all hint
                             System.out.println("Possible number:");
+
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
-                                    String hint = hints.get(x).get(y).getNum();
+                                    Point point = hints.get(x).get(y);
+                                    String hint = point.getNum();
 
                                     if (hint.isEmpty()) { // got number then skip
                                         continue;
                                     }
 
-                                    System.out.println("" + (x + 1) + (y + 1) + "[" + hint + "]");
+                                    System.out.println(point);
                                 }
                             }
 
@@ -67,7 +68,8 @@ public class Game {
 
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
-                                    String hint = hints.get(x).get(y).getNum();
+                                    Point point = hints.get(x).get(y);
+                                    String hint = point.getNum();
                                     int z = sudoku.getSudoku().get(x).get(y).getZ(); // traverse all z
 
                                     if (!token[1].equals(String.valueOf(z))) { // different z axis then skip
@@ -78,7 +80,7 @@ public class Game {
                                         continue;
                                     }
 
-                                    System.out.println("" + (x + 1) + (y + 1) + "[" + hint + "]");
+                                    System.out.println(point);
                                 }
                             }
 
@@ -88,9 +90,12 @@ public class Game {
                         break;
 
                     case "autofill":
-                        boolean hasFilled = sudoku.autofill(sudoku.getHint());
-                        if (!hasFilled) {
-                            System.out.println("Can't fill in anymore!");
+                        while (true) {
+                            boolean hasFilled = sudoku.autofill(hints); // if true continue the loop
+                            if (!hasFilled) {
+                                System.out.println("Can't fill in anymore!");
+                                break;
+                            }
                         }
                         break;
 
